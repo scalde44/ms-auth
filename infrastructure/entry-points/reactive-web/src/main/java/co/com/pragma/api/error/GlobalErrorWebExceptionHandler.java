@@ -19,6 +19,7 @@ import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
+import org.springframework.web.reactive.resource.NoResourceFoundException;
 import reactor.core.publisher.Mono;
 
 import java.util.Optional;
@@ -36,10 +37,11 @@ public class GlobalErrorWebExceptionHandler
                                           ApplicationContext applicationContext, ServerCodecConfigurer configurer) {
         super(errorAttributes, resources, applicationContext);
         this.setMessageWriters(configurer.getWriters());
-        STATUS_CODES.put(DuplicateException.class.getSimpleName(), HttpStatus.BAD_REQUEST.value());
+        STATUS_CODES.put(DuplicateException.class.getSimpleName(), HttpStatus.CONFLICT.value());
         STATUS_CODES.put(InvalidValueException.class.getSimpleName(), HttpStatus.BAD_REQUEST.value());
         STATUS_CODES.put(MandatoryValueException.class.getSimpleName(), HttpStatus.BAD_REQUEST.value());
         STATUS_CODES.put(NotFoundException.class.getSimpleName(), HttpStatus.NOT_FOUND.value());
+        STATUS_CODES.put(NoResourceFoundException.class.getSimpleName(), HttpStatus.NOT_FOUND.value());
     }
 
     @Override
